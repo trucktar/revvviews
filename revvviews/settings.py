@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    'revvviews.apps.main',
+    'revvviews.apps.main.MainConfig',
 ]
 
 MIDDLEWARE = [
