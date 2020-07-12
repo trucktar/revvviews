@@ -1,9 +1,47 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render, reverse
+from django.views import View
+
+from revvviews.apps.main.models import Profile, Project, Review
 
 
-def index(request):
-    return render(
-        request,
-        'index.html',
-        context={'message': 'Systems up and running!'},
-    )
+def redirect_to_projects(request):
+    return redirect(reverse('projects'))
+
+
+class ProfileView(View):
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+
+        if username == 'favicon.ico':
+            return redirect_to_projects(request)
+
+        return render(
+            request,
+            'profile.html',
+            context={
+                'profile': Profile.get_by_username(username),
+            },
+        )
+
+
+class ProjectsView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request,
+            'projects.html',
+            context={
+                'projects': Project.objects.all(),
+            },
+        )
+
+
+class ProjectView(View):
+    def get(self, request, *args, **kwargs):
+        project_title = kwargs.get('title')
+        return render(
+            request,
+            'project.html',
+            context={
+                'project': Project.objects.get(title=project_title),
+            },
+        )
