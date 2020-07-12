@@ -5,5 +5,8 @@ from django.urls import path
 from revvviews.apps.main import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.redirect_to_projects, name='home'),
+    path('projects/', views.ProjectsView.as_view(), name='projects'),
+    path('projects/<title>', views.ProjectView.as_view(), name='project'),
+    path('<username>/', views.ProfileView.as_view(), name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
