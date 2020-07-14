@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'revvviews.apps.main.MainConfig',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,31 @@ TEMPLATES = [
         },
     },
 ]
+
+# Bootstrap
+# https://django-bootstrap4.readthedocs.io/en/latest/index.html
+BOOTSTRAP4 = {
+    'css_url': {
+        'href':
+        'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css',
+        'integrity':
+        'sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk',
+        'crossorigin': 'anonymous',
+    },
+    'javascript_url': {
+        'url':
+        'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js',
+        'integrity':
+        'sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI',
+        'crossorigin': 'anonymous',
+    },
+    'jquery_slim_url': {
+        'url': 'https://code.jquery.com/jquery-3.5.1.slim.min.js',
+        'integrity':
+        'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj',
+        'crossorigin': 'anonymous',
+    },
+}
 
 WSGI_APPLICATION = 'revvviews.wsgi.application'
 
