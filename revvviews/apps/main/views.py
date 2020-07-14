@@ -7,8 +7,9 @@ from revvviews.apps.main.models import Profile, Project, Review
 
 def logout_then_stay(request):
     """Log out an authenticated user then redirect to the same page."""
-    current_page = request.META.get('HTTP_REFERER')
-    return LogoutView.as_view(next_page=current_page)(request)
+    if request.user.is_authenticated:
+        current_page = request.META.get('HTTP_REFERER', '/')
+        return LogoutView.as_view(next_page=current_page)(request)
 
 
 def redirect_to_projects(request):
