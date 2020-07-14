@@ -1,0 +1,23 @@
+body {
+  font-size: 14px;
+  font-weight: 300;
+  background-color: #f4f7f6;
+  color: #202121;
+}
+.modal-body .btn,
+.modal-body .form-control {
+  height: 60px;
+  border-radius: 0;
+}
+.modal-body .alert {
+  border: 0;
+  border-radius: 0;
+}
+.form-inline {
+  padding-left: 3rem;
+}
+.collapsing .form-inline,
+.show .form-inline {
+  padding-top: 1rem;
+  padding-left: 0 !important;
+}
