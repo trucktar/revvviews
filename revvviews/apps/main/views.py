@@ -1,6 +1,9 @@
+from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView
-from django.shortcuts import redirect, render, reverse
-from django.views import View
+from django.shortcuts import redirect, render, resolve_url, reverse
+from django.views.generic.base import TemplateView, View
+from django_registration.backends.one_step.views import \
+    RegistrationView as BaseRegistrationView
 
 from revvviews.apps.main.models import Profile, Project, Review
 
@@ -14,6 +17,33 @@ def logout_then_stay(request):
 
 def redirect_to_projects(request):
     return redirect(reverse('projects'))
+
+
+class RegistrationView(BaseRegistrationView):
+    template_name = 'auth/register.html'
+
+    def get_success_url(self):
+        return resolve_url('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['registration_form'] = context.pop('form')
+
+        return context
+
+
+class LoginView(BaseLoginView):
+    template_name = 'auth/login.html'
+
+    def get_success_url(self):
+        LOGIN_REDIRECT_URL = '/'
+        return resolve_url(LOGIN_REDIRECT_URL)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['login_form'] = context.pop('form')
+
+        return context
 
 
 class ProfileView(View):
