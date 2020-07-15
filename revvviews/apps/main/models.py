@@ -35,6 +35,10 @@ class Project(models.Model):
         related_name='projects',
     )
 
+    @classmethod
+    def search_project(cls, search_term):
+        return cls.objects.filter(title__istartswith=search_term)
+
 
 class Review(models.Model):
     design = models.PositiveSmallIntegerField()
