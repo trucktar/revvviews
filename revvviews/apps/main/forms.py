@@ -4,10 +4,13 @@ from revvviews.apps.main.models import Project, Review
 
 
 class ProjectSubmitForm(ModelForm):
-    model = Project
-    fields = ['title', 'description', 'screenshot', 'live_link']
+    class Meta:
+        model = Project
+        fields = ['screenshot', 'title', 'description', 'live_link']
+        field_order = fields
 
 
 class ProjectReviewForm(ModelForm):
-    model = Review
-    fields = ['design', 'usability', 'content']
+    class Meta:
+        model = Review
+        fields = ['design', 'usability', 'content']
