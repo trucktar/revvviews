@@ -23,19 +23,6 @@
             ],
             "version": "==3.2.10"
         },
-        "certifi": {
-            "hashes": [
-                "sha256:5930595817496dd21bb8dc35dad090f1c2cd0adfaf21204bf6732ca5d8ee34d3",
-                "sha256:8fc0819f1f30ba15bdb34cceffb9ef04d99f420f68eb75d901e9560b8749fc41"
-            ],
-            "version": "==2020.6.20"
-        },
-        "cloudinary": {
-            "hashes": [
-                "sha256:07974152945bdb5b03c35c0ee52e1ca5a6c615de592b458a1b866fef1e48dc2b"
-            ],
-            "index": "pypi",
-            "version": "==1.21.1"
         "beautifulsoup4": {
             "hashes": [
                 "sha256:73cc4d115b96f79c7d77c1c7f7a0a8d4c57860d1041df407dd1aae7f07a77fd7",
@@ -149,12 +136,6 @@
             ],
             "version": "==2020.1"
         },
-        "six": {
-            "hashes": [
-                "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259",
-                "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"
-            ],
-            "version": "==1.15.0"
         "soupsieve": {
             "hashes": [
                 "sha256:1634eea42ab371d3d346309b93df7870a88610f0725d47528be902a0d95ecc55",
@@ -168,13 +149,6 @@
                 "sha256:e162203737712307dfe78860cc56c8da8a852ab2ee33750e33aeadf38d12c548"
             ],
             "version": "==0.3.1"
-        },
-        "urllib3": {
-            "hashes": [
-                "sha256:3018294ebefce6572a474f0604c2021e33b3fd8006ecd11d62107a5d2a963527",
-                "sha256:88206b0eb87e6d677d424843ac5209e3fb9d0190d0ee169599165ec25e9d9115"
-            ],
-            "version": "==1.25.9"
         },
         "whitenoise": {
             "hashes": [
