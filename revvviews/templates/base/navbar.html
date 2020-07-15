@@ -9,8 +9,8 @@
         style="font-size: 26px;">revvviews</a>
     </div>
     <div class="collapse navbar-collapse" id="navDrop">
-      <form class="form-inline pl-3 pt-lg-0">
-        <input class="form-control rounded-0 w-100" type="search" placeholder="Search">
+      <form class="form-inline pl-3 pt-lg-0" action="{% url 'search' %}" method="GET">
+        <input class="form-control rounded-0 w-100" type="search" placeholder="Search" name="project">
       </form>
       <ul class="list-unstyled d-flex ml-auto mb-0 pr-lg-0">
         {% if not user.is_authenticated %}
