@@ -9,11 +9,12 @@
 
 {% block content %}
 <div class="row no-gutters px-3 px-lg-4 w-100 py-5">
+  {% if projects %}
   {% for project in projects %}
   <div class="col-sm-6 col-lg-4 pb-4 px-2">
     <div class="card rounded-0 border-0">
-      <a href="{% url 'project' project.title %}"><img src="{{ project.screenshot.url }}"
-          class="card-img-top rounded-0" style="height: 250px; object-fit: cover; object-position: center;"></a>
+      <a href="{% url 'project' project.title %}"><img src="{{ project.screenshot.url }}" class="card-img-top rounded-0"
+          style="height: 250px; object-fit: cover; object-position: center;"></a>
       <div class="card-body d-flex justify-content-between">
         <span class="card-title mb-0" style="font"><a class="font-weight-bold text-decoration-none text-dark"
             href="{% url 'project' project.title %}">{{ project.title }}</a></span>
@@ -28,5 +29,10 @@
     </div>
   </div>
   {% endfor %}
+  {% else %}
+  <div class="col align-self-center" style="font-size: 16px;">
+    Your search - <span class="font-weight-bold">{{ search_term }}</span> - did not match any project
+  </div>
+  {% endif %}
 </div>
 {% endblock %}
