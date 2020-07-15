@@ -73,6 +73,19 @@ class ProjectsView(View):
         )
 
 
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        search_term = request.GET.get('project')
+        return render(
+            request,
+            'projects.html',
+            context={
+                'search_term': search_term,
+                'projects': Project.search_project(search_term),
+            },
+        )
+
+
 class ProjectView(View):
     def get(self, request, *args, **kwargs):
         project_title = kwargs.get('title')
