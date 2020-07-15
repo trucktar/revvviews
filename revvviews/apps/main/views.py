@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect, render, resolve_url, reverse
@@ -22,9 +23,7 @@ def redirect_to_projects(request):
 
 class RegistrationView(BaseRegistrationView):
     template_name = 'auth/register.html'
-
-    def get_success_url(self):
-        return resolve_url('home')
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,7 +98,7 @@ class ProjectView(View):
         )
 
 
-class ProjectSubmitView(View):
+class ProjectSubmitView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return render(
             request,
