@@ -89,6 +89,10 @@ class SearchView(View):
 class ProjectView(View):
     def get(self, request, *args, **kwargs):
         project_title = kwargs.get('title')
+
+        if project_title == 'None':
+            return redirect_to_projects(request)
+
         return render(
             request,
             'project.html',
