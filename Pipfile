@@ -14,7 +14,7 @@ django-environ = "*"
 whitenoise = "*"
 pillow = "*"
 django-registration = "*"
-cloudinary = "*"
+django-bootstrap4 = "*"
 
 [requires]
 python_version = "3.7"
