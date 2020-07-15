@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -6,10 +7,7 @@ class Profile(models.Model):
     display_name = models.CharField(max_length=30)
     url = models.URLField()
     description = models.TextField(max_length=150)
-    avatar = models.ImageField(
-        upload_to='avatars/',
-        default='avatars/default-user.png',
-    )
+    avatar = CloudinaryField('avatar', folder='revvviews/avatars/')
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -25,7 +23,7 @@ class Profile(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=30)
     description = models.CharField(max_length=185)
-    screenshot = models.ImageField(upload_to='uploads')
+    screenshot = CloudinaryField('screenshot', folder='revvviews/uploads/')
     live_link = models.URLField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

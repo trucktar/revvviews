@@ -16,6 +16,7 @@ pillow = "*"
 django-registration = "*"
 django-bootstrap4 = "*"
 gunicorn = "*"
+cloudinary = "*"
 
 [requires]
 python_version = "3.7"

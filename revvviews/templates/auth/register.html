@@ -1,40 +1,32 @@
 {% extends 'base/base.html' %}
 {% load bootstrap4 %}
 
-<!-- Button trigger modal -->
-{% block content %}
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerModal">
-  Launch AUTH modal
-</button>
+{% block navbar %}
+{% include 'base/navbar.html' %}
 {% endblock %}
 
-<!-- Modal -->
-{% block modal %}
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog">
-  <button class="position-absolute btn btn-lg bg-white rounded-0" type="button" data-dismiss="modal" style="right: 0;">
-    <span>&times;</span>
-  </button>
-  <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
-    <div class="modal-content border-0 rounded-0 px-3 px-sm-5 py-3 py-sm-4">
-      <div class="modal-header border-0 flex-wrap" style="font-size: 17px;">
-        <span class="font-weight-bold">Register with your email</span>
-        <span class="">Are you a member? <a class="text-info font-weight-bold" href="">Login now</a></span>
-      </div>
-      <div class="modal-body pt-0 pt-sm-3">
-        {% for error in registration_form.non_field_errors %}
-        {% bootstrap_alert error alert_type='danger' %}
+{% block content %}
+<div class="d-flex flex-column px-3 px-sm-5 py-3 py-sm-4 bg-white w-100" style="max-width: 650px;">
+  <div class="d-flex flex-column">
+    <div class="modal-header border-0 flex-wrap" style="font-size: 17px;">
+      <span class="font-weight-bold">Register with your email</span>
+      <span class="">Are you a member? <a class="text-info font-weight-bold" href="{% url 'login' %}">Login
+          now</a></span>
+    </div>
+    <div class="modal-body pt-0 pt-sm-3">
+      {% for error in registration_form.non_field_errors %}
+      {% bootstrap_alert error alert_type='danger' %}
+      {% endfor %}
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        {% for field in registration_form.visible_fields %}
+        {% if field.has_error %} {{ field.errors }} {% endif %}
+        {% bootstrap_field field error_css_class='is-invalid' show_label=False show_help=False%}
         {% endfor %}
-        <form action="{% url 'register' %}" method="POST">
-          {% csrf_token %}
-          {% for field in registration_form.visible_fields %}
-          {% if field.has_error %} {{ field.errors }} {% endif %}
-          {% bootstrap_field field error_css_class='is-invalid' show_label=False show_help=False%}
-          {% endfor %}
-          <div class="mb-4">
-            <button type="submit" class="btn btn-info text-uppercase w-100">Create your account</button>
-          </div>
-        </form>
-      </div>
+        <div class="mb-4">
+          <button type="submit" class="btn btn-info text-uppercase w-100">Create your account</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
