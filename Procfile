@@ -1,0 +1,1 @@
+web: gunicorn revvviews.wsgi --log-file -

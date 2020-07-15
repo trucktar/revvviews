@@ -1,0 +1,1 @@
+from revvviews.apps.main.apps import MainConfig

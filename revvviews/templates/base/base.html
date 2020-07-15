@@ -1,0 +1,25 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1,shrink-to-fit=no" name="viewport">
+
+{% bootstrap_css %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'base.css' %}">
+{% endblock %}
+<title>{% block title %} Revvviews - Project Peer Reviewing {% endblock %}</title>
+
+{% block navbar %}{% endblock %}
+
+<div class="d-flex justify-content-center position-relative" style="top: 70px;">
+  {% block content %}
+  {% endblock %}
+</div>
+
+{% block modal %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% bootstrap_javascript jquery='slim'%}
