@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView, View
 from django_registration.backends.one_step.views import \
     RegistrationView as BaseRegistrationView
 
+from revvviews.apps.main.forms import ProjectReviewForm, ProjectSubmitForm
 from revvviews.apps.main.models import Profile, Project, Review
 
 
@@ -96,3 +97,27 @@ class ProjectView(View):
                 'project': Project.objects.get(title=project_title),
             },
         )
+
+
+class ProjectSubmitView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request,
+            'submit.html',
+            context={
+                'submit_form': ProjectSubmitForm(),
+            },
+        )
+
+    def post(self, request, *args, **kwargs):
+        project = Project(profile=request.user.profile)
+        submit_form = ProjectSubmitForm(
+            request.POST,
+            request.FILES,
+            instance=project,
+        )
+        if submit_form.is_valid():
+            submit_form.save()
+            return redirect(reverse('home'))
+
+        return redirect(reverse('submit'))

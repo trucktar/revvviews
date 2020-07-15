@@ -12,5 +12,7 @@ urlpatterns = [
     path('register/', views.RegistrationView.as_view(), name='register'),
     path('login/', views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_then_stay, name='logout'),
+    path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('submit/', views.ProjectSubmitView.as_view(), name='submit'),
     path('<username>/', views.ProfileView.as_view(), name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
