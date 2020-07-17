@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% load cloudinary %}
+
+{% block content %}
+<div class="d-flex flex-column w-100">
+  <div class="d-flex justify-content-center border-bottom p-5 w-100">
+    <div class="d-flex flex-column">
+      <div class="mb-3">
+        {% if user.profile.avatar %}
+        {% cloudinary user.profile.avatar width=70 height=70 %}
+        {% else %}
+        {% cloudinary 'revvviews/avatars/default-user_lrifiv.png' width=70 height=70 %}
+        {% endif %}
+      </div>
+      <span class="mb-2" style="font-size:21px;">{{ profile.display_name }}</span>
+      <span class="mb-2">{{ profile.description }}</span>
+    </div>
+  </div>
+  <div class="d-flex py-5 px-4 w-100" style="font-size: 17px;">
+    <span class="font-weight-bold">{{ profile.projects.count }} Project{{ profile.projects.count|pluralize }}</span>
+  </div>
+
+  <div class="row px-4 w-100">
+    {% for project in profile.projects.all %}
+    <div class="col-sm-6 col-lg-4 pb-4">
+      <div class="card rounded-0 border-0">
+        <a href="{% url 'project' project.title %}"><img src="{{ project.screenshot.url }}"
+            class="card-img-top rounded-0" style="height: 250px; object-fit: cover; object-position: center;"></a>
+        <div class="card-body d-flex justify-content-between">
+          <span class="card-title mb-0"><a class="font-weight-bold text-decoration-none text-dark"
+              href="{% url 'project' project.title %}">{{ project.title }}</a></span>
+          <span class="card-subtitle text-muted" style="margin-top: 2px;">{{ project.timestamp|date:"F j, Y" }}</span>
+        </div>
+        <div class="card-footer text-uppercase bg-white" style="font-size: 12px;">
+          {% if project.profile.avatar %}
+          <a href="{% url 'profile' project.profile.username %}">
+            {% cloudinary project.profile.avatar width=27 height=27 %}</a>
+          {% else %}
+          <a href="{% url 'profile' project.profile.username %}">
+            {% cloudinary 'revvviews/avatars/default-user_lrifiv.png' width=27 height=27 %}</a>
+          {% endif %}
+          <span>by <a class="font-weight-bold text-decoration-none text-dark"
+              href="{% url 'profile' project.profile.username %}">{{ project.profile.display_name }}</a>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col align-self-center" style="font-size: 16px;">
+      Your haven't posted any projects. Click <a href="{% url 'submit' %}">here</a> to create one
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
