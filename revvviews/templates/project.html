@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 
+{% load bootstrap4 %}
 {% load cloudinary %}
 
 {% block content %}
@@ -10,8 +11,18 @@
       <img class="w-100 img-fluid" src="{{ project.screenshot.url }}" alt="{{ project.title }}" width="918" height="656"
         style="z-index:1;max-width:100%; object-fit:cover;object-position:center;">
     </div>
+    {% if user.profile != project.profile %}
     <button class="btn btn-block btn-info p-0 border-0 rounded-0 shadow-none font-weight-bold" style="height:80px;">VOTE
       NOW</button>
+    <form id="review" action="{% url 'review' project.title %}" method="POST"
+      class="d-none justify-content-between align-items-center pl-4" style="height:80px;">
+      {% csrf_token %}
+      {% for field in review_form.visible_fields %}
+      {% bootstrap_field field show_help=False%}
+      {% endfor %}
+      <button type="submit" class="btn btn-info text-uppercase rounded-0 h-100">Vote</button>
+    </form>
+    {% endif %}
   </div>
 
   <div class="d-flex flex-column p-4 bg-white">

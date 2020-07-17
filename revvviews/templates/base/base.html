@@ -23,12 +23,22 @@
 {% bootstrap_javascript jquery='full'%}
 <script src="{% static 'scripts.js' %}"></script>
 <script>
-  if ('{{ user.is_authenticated }}' === 'False') {
-    var lastNav = $(".navbar-collapse li:last");
+  var lastNav = $(".navbar-collapse li:last");
+  var reviewForm = $("#review:hidden");
+  var voteButton = reviewForm.prev();
 
+  if ('{{ user.is_authenticated }}' === 'False') {
     lastNav.children("a").click((event) => {
       event.preventDefault();
-      lastNav.prev().children("a").click()
+      lastNav.prev().children("a").click();
+    });
+    voteButton.click((event) => {
+      lastNav.prev().children("a").click();
+    });
+  } else {
+    voteButton.click((event) => {
+      $(event.target).hide(2);
+      reviewForm.removeClass('d-none').addClass('d-flex');
     });
   }
 </script>
