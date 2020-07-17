@@ -92,9 +92,21 @@ class ProjectView(View):
             request,
             'project.html',
             context={
+                'review_form': ProjectReviewForm(),
                 'project': Project.objects.get(title=project_title),
             },
         )
+
+
+class ProjectReviewView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        project_title = kwargs.get('title')
+
+        project = Project.objects.get(title=project_title),
+        review = Review(project=project, profile=request.user.profile)
+
+        review_form = ProjectReviewForm(request.POST, instance=review)
+        return redirect(reverse('project', args=[project.title]))
 
 
 class ProjectSubmitView(LoginRequiredMixin, View):
