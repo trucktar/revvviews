@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView
+from django.http import JsonResponse
 from django.shortcuts import redirect, render, resolve_url, reverse
 from django.views.generic.base import TemplateView, View
 from django_registration.backends.one_step.views import \
@@ -12,47 +13,45 @@ from revvviews.apps.main.models import Profile, Project, Review
 
 def logout_then_stay(request):
     """Log out an authenticated user then redirect to the same page."""
-    if request.user.is_authenticated:
-        current_page = request.META.get('HTTP_REFERER', '/')
-        return LogoutView.as_view(next_page=current_page)(request)
+    if not request.user.is_authenticated:
+        return redirect(reverse('home'))
+
+    current_page = resolve_url(request.META.get('HTTP_REFERER'))
+    return LogoutView.as_view(next_page=current_page)(request)
 
 
 def redirect_to_projects(request):
     return redirect(reverse('projects'))
 
 
-class RegistrationView(BaseRegistrationView):
-    template_name = 'auth/register.html'
-    success_url = '/'
+class AJAXOnlyResponseMixin:
+    def form_invalid(self, form):
+        super().form_invalid(form)
+        form_errors = {
+            'non_field_errors': form.non_field_errors(),
+            **{
+                field.name: [error for error in field.errors]
+                for field in form.visible_fields()
+            }
+        }
+        return JsonResponse(form_errors, status=400)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['registration_form'] = context.pop('form')
 
-        return context
+class RegistrationView(AJAXOnlyResponseMixin, BaseRegistrationView):
+    def get_success_url(self, user=None):
+        current_user = self.request.user
+        return reverse('profile', args=[current_user.username])
 
 
-class LoginView(BaseLoginView):
-    template_name = 'auth/login.html'
-
+class LoginView(AJAXOnlyResponseMixin, BaseLoginView):
     def get_success_url(self):
-        LOGIN_REDIRECT_URL = '/'
-        return resolve_url(LOGIN_REDIRECT_URL)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['login_form'] = context.pop('form')
-
-        return context
+        current_page = self.request.META.get('HTTP_REFERER')
+        return resolve_url(current_page)
 
 
 class ProfileView(View):
     def get(self, request, *args, **kwargs):
         username = kwargs.get('username')
-
-        if username == 'favicon.ico':
-            return redirect_to_projects(request)
-
         return render(
             request,
             'profile.html',
@@ -89,10 +88,6 @@ class SearchView(View):
 class ProjectView(View):
     def get(self, request, *args, **kwargs):
         project_title = kwargs.get('title')
-
-        if project_title == 'None':
-            return redirect_to_projects(request)
-
         return render(
             request,
             'project.html',
@@ -119,8 +114,5 @@ class ProjectSubmitView(LoginRequiredMixin, View):
             request.FILES,
             instance=project,
         )
-        if submit_form.is_valid():
-            submit_form.save()
-            return redirect(reverse('home'))
-
+        submit_form.save()
         return redirect(reverse('submit'))
