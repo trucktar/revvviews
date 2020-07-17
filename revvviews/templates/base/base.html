@@ -5,21 +5,31 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta content="width=device-width,initial-scale=1,shrink-to-fit=no" name="viewport">
-
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
 {% bootstrap_css %}
-{% block styles %}
 <link rel="stylesheet" href="{% static 'base.css' %}">
-{% endblock %}
 <title>{% block title %} Revvviews - Project Peer Reviewing {% endblock %}</title>
 
-{% block navbar %}{% endblock %}
+{% include 'base/navbar.html' %}
 
 <div class="d-flex justify-content-center position-relative" style="top: 70px;">
   {% block content %}
   {% endblock %}
 </div>
 
-{% block modal %}{% endblock %}
-{% block footer %}{% endblock %}
+{% include 'auth/auth-modal.html' %}
 
-{% bootstrap_javascript jquery='slim'%}
+{% block scripts %}
+{% bootstrap_javascript jquery='full'%}
+<script src="{% static 'scripts.js' %}"></script>
+<script>
+  if ('{{ user.is_authenticated }}' === 'False') {
+    var lastNav = $(".navbar-collapse li:last");
+
+    lastNav.children("a").click((event) => {
+      event.preventDefault();
+      lastNav.prev().children("a").click()
+    });
+  }
+</script>
+{% endblock %}
