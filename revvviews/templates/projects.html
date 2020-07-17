@@ -1,38 +1,37 @@
 {% extends 'base/base.html' %}
 
-{% load static %}
-{% load bootstrap4 %}
-
-{% block navbar %}
-{% include 'base/navbar.html' %}
-{% endblock %}
+{% load cloudinary %}
 
 {% block content %}
-<div class="row no-gutters px-3 px-lg-4 w-100 py-5">
-  {% if projects %}
+<div class="row py-5 px-2 w-100">
   {% for project in projects %}
-  <div class="col-sm-6 col-lg-4 pb-4 px-2">
+  <div class="col-sm-6 col-lg-4 pb-4">
     <div class="card rounded-0 border-0">
       <a href="{% url 'project' project.title %}"><img src="{{ project.screenshot.url }}" class="card-img-top rounded-0"
           style="height: 250px; object-fit: cover; object-position: center;"></a>
       <div class="card-body d-flex justify-content-between">
-        <span class="card-title mb-0" style="font"><a class="font-weight-bold text-decoration-none text-dark"
+        <span class="card-title mb-0"><a class="font-weight-bold text-decoration-none text-dark"
             href="{% url 'project' project.title %}">{{ project.title }}</a></span>
         <span class="card-subtitle text-muted" style="margin-top: 2px;">{{ project.timestamp|date:"F j, Y" }}</span>
       </div>
-      <div class="card-footer text-uppercase bg-white">
-        <img class="rounded-0" src="{{ project.profile.avatar.url }}" alt="{{ project.profile.display_name }}"
-          width="27" height="27">
-        <span style="font-size: 12px;">by <a class="font-weight-bold text-decoration-none text-dark"
-            href="{% url 'profile' project.profile.username %}">{{ project.profile.display_name }}</a></span>
+      <div class="card-footer text-uppercase bg-white" style="font-size: 12px;">
+        {% if project.profile.avatar %}
+        <a href="{% url 'profile' project.profile.username %}">
+          {% cloudinary project.profile.avatar width=27 height=27 %}</a>
+        {% else %}
+        <a href="{% url 'profile' project.profile.username %}">
+          {% cloudinary 'revvviews/avatars/default-user_lrifiv.png' width=27 height=27 %}</a>
+        {% endif %}
+        <span>by <a class="font-weight-bold text-decoration-none text-dark"
+            href="{% url 'profile' project.profile.username %}">{{ project.profile.display_name }}</a>
+        </span>
       </div>
     </div>
   </div>
-  {% endfor %}
-  {% else %}
+  {% empty %}
   <div class="col align-self-center" style="font-size: 16px;">
     Your search - <span class="font-weight-bold">{{ search_term }}</span> - did not match any project
   </div>
-  {% endif %}
+  {% endfor %}
 </div>
 {% endblock %}

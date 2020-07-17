@@ -1,11 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% load static %}
-{% load bootstrap4 %}
-
-{% block navbar %}
-{% include 'base/navbar.html' %}
-{% endblock %}
+{% load cloudinary %}
 
 {% block content %}
 <div class="d-flex flex-column px-md-5" style="max-width:1050px;font-size:15px;">
@@ -40,8 +35,11 @@
         <div class="d-flex align-items-center">
           <div class="mr-3">
             <a href="{% url 'profile' review.profile.username %}">
-              <img class="rounded-0" src="{{ review.profile.avatar.url }}" alt="{{ review.profile.display_name }}"
-                width="50" height="50">
+              {% if review.profile.avatar %}
+              {% cloudinary review.profile.avatar width=50 height=50 %}
+              {% else %}
+              {% cloudinary 'revvviews/avatars/default-user_lrifiv.png' width=50 height=50 %}
+              {% endif %}
             </a>
           </div>
           <div class="d-flex">
@@ -76,8 +74,11 @@
         <div class="d-flex">
           <div class="mr-3">
             <a href="{% url 'profile' project.profile.username %}">
-              <img class="rounded-0" src="{{ project.profile.avatar.url }}" alt="{{ project.profile.display_name }}"
-                width="50" height="50">
+              {% if user.profile.avatar %}
+              {% cloudinary user.profile.avatar width=50 height=50 %}
+              {% else %}
+              {% cloudinary 'revvviews/avatars/default-user_lrifiv.png' width=50 height=50 %}
+              {% endif %}
             </a>
           </div>
           <div class="d-flex align-items-center">
