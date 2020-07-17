@@ -1,0 +1,50 @@
+{% load bootstrap4 %}
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+  <button class="position-absolute btn btn-lg bg-white rounded-0" type="button" data-dismiss="modal" style="right:0;">
+    <span>&times;</span>
+  </button>
+  <div class="modal-dialog modal-dialog-centered" style="max-width:650px;">
+    <div class="modal-content border-0 rounded-0 px-3 px-sm-5 py-3 py-sm-4">
+      <div role="tablist" style="font-size: 17px;">
+        <div class="modal-header border-0 flex-wrap">
+          <span class="font-weight-bold">Sign in to continue</span>
+          <span>Not a member yet? <a class="text-info font-weight-bold" href="#registerForm" role="tab">Register
+              now</a></span>
+        </div>
+        <div class="modal-header d-none border-0 flex-wrap">
+          <span class="font-weight-bold">Register with your email</span>
+          <span class="">Are you a member? <a class="text-info font-weight-bold" href="#loginForm" role="tab">Login
+              now</a></span>
+        </div>
+      </div>
+      <div class="tab-content">
+        <div class="modal-body pt-0 pt-sm-3">
+          <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {% for field in login_form.visible_fields %}
+            {% bootstrap_field field show_label=False show_help=False%}
+            {% endfor %}
+            <div class="mb-4">
+              <button type="submit" class="btn btn-info text-uppercase w-100">Login Now</button>
+            </div>
+            <div class="text-center">
+              <a class="text-dark" href="" style="text-decoration:underline;">Forgot your
+                password</a>
+            </div>
+          </form>
+        </div>
+        <div class="modal-body d-none pt-0 pt-sm-3">
+          <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            {% for field in register_form.visible_fields %}
+            {% bootstrap_field field error_css_class='is-invalid' show_label=False show_help=False%}
+            {% endfor %}
+            <div class="mb-4">
+              <button type="submit" class="btn btn-info text-uppercase w-100">Create your account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
